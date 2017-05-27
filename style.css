@@ -1,0 +1,21 @@
+.square{
+  width: 12%;
+  padding-top: 12%;
+  /*height: 60px;*/
+  float: left;
+  /*border-style: solid;*/
+  /*background-color:*/
+
+}
+#boardZone{
+  /*border-style: solid;*/
+  max-height: inherit;
+  height: 100%;
+  max-width: 90%;
+}
+body{
+  min-height: 100%;
+}
+html{
+  min-height: 100%;
+}

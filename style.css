@@ -1,21 +1,33 @@
 .square{
   width: 12%;
-  padding-top: 12%;
-  /*height: 60px;*/
+  height: 30px;
   float: left;
-  /*border-style: solid;*/
-  /*background-color:*/
-
 }
 #boardZone{
-  /*border-style: solid;*/
   max-height: inherit;
   height: 100%;
   max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 body{
   min-height: 100%;
 }
 html{
   min-height: 100%;
+}
+.piece{
+  max-width: 100%;
+}
+div.active{
+  background-color: darkgoldenrod !important;
+}
+.dark{
+  background-color: darkred;
+}
+.light{
+  background-color: brown;
+}
+body{
+  background-color: gray;
 }

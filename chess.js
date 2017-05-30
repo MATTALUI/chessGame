@@ -1,3 +1,18 @@
+$(document).ready(()=>{
+  generateBoard();
+  $('.square').css('height', $('#a1').css('width'));
+  setPieces();
+  $('#boardZone').on('click','.piece', selectPiece);
+  $('#boardZone').on('click','.square', selectNewLocation);
+});
+$(window).resize(()=>{
+    // console.log($('#a1').css('width'));
+    $('.square').css('height', $('#a1').css('width'));
+
+});
+
+
+
 function generateBoard(){
   const $body = $('body');
   let alphaIndex = ['a','b','c','d','e','f','g','h'];
@@ -19,12 +34,13 @@ function generateBoard(){
     }
 
   }
-  // colorBoard();
 }
 function addPiece(pieceType, color, location){
-  $(`#${location}`).html(`<img src="pieces/${color}${pieceType}.png" class="piece ${pieceType}">`);
+  $(`#${location}`).html(`<img src="pieces/${color}${pieceType}.png" class="piece" data-team="${color}" data-piece="${pieceType}">`);
 
 }
+
+
 function removePiece(location){
   $(`#${location}`).html('')
 }
@@ -32,9 +48,6 @@ function movePiece(from, to){
   $('.active').removeClass('active');
   $(`#${to}`).html($(`#${from}`).html());
   $(`#${from}`).html('');
-  let newPiece = $(`#${to}`).children()[0];
-  console.log(newPiece);
-  $(newPiece).on('click', addListener);
 }
 function setPieces(){
   for(let i=0; i<8;i++){
@@ -58,26 +71,18 @@ function setPieces(){
   addPiece('bishop', 'black', 'f8');
   addPiece('queen', 'white', 'd1');
   addPiece('queen', 'black', 'd8');
-  $('.piece').on('click', addListener);
-
 }
-function addListener(){
-  console.log(event.target.className.split(' ')[1]);
+function selectPiece(){
+    console.log(`You've selected a ${$(event.target).data().team} ${$(event.target).data().piece}`);
   let square = $(event.target).parent()[0];
+  if($(square).hasClass('active')){
+    $('.active').removeClass('active');
+    return;
+  }
   $('.active').removeClass('active');
   $(square).addClass('active');
 }
-
-$(window).resize(function(){
-    // console.log($('#a1').css('width'));
-    $('.square').css('height', $('#a1').css('width'));
-
-});
-$(document).ready(()=>{
-  generateBoard();
-  $('.square').css('height', $('#a1').css('width'));
-  setPieces();
-})
-
-
-// $('.square').css()
+function selectNewLocation(){
+  // console.log('clicked a square');
+  
+}

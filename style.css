@@ -17,7 +17,7 @@ html{
   min-height: 100%;
 }
 .piece{
-  max-width: 100%;
+  width: 100%;
 }
 div.active{
   background-color: darkgoldenrod !important;

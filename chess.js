@@ -11,8 +11,6 @@ $(window).resize(()=>{
 
 });
 
-
-
 function generateBoard(){
   const $body = $('body');
   let alphaIndex = ['a','b','c','d','e','f','g','h'];
@@ -39,8 +37,6 @@ function addPiece(pieceType, color, location){
   $(`#${location}`).html(`<img src="pieces/${color}${pieceType}.png" class="piece" data-team="${color}" data-piece="${pieceType}">`);
 
 }
-
-
 function removePiece(location){
   $(`#${location}`).html('')
 }
@@ -73,7 +69,6 @@ function setPieces(){
   addPiece('queen', 'black', 'd8');
 }
 function selectPiece(){
-    console.log(`You've selected a ${$(event.target).data().team} ${$(event.target).data().piece}`);
   let square = $(event.target).parent()[0];
   if($(square).hasClass('active')){
     $('.active').removeClass('active');
@@ -83,6 +78,104 @@ function selectPiece(){
   $(square).addClass('active');
 }
 function selectNewLocation(){
-  // console.log('clicked a square');
-  
+  let squareClicked = event.path.reverse()[5];
+  // let selectedPiece = $('.active').attr('id');
+  if ($(squareClicked).children().length === 0 && $('.active').length > 0){
+    movePiece($('.active').attr('id'), squareClicked.id)
+  }
+}
+function getGameState(){
+  let board = [];
+  let currentRow = [];
+  let numberOfSquares = $('.square').length;
+  for (let i =0; i<numberOfSquares;i++){
+    let currentSquare = $('.square')[i];
+    if($(currentSquare).children().length === 0){
+      currentRow.push(null);
+    }else{
+      let type;
+      let thePiece = $(currentSquare).children();
+      if ($(thePiece).data().piece === 'knight'){
+        type = 'n';
+      }else{
+        type = $(thePiece).data().piece[0];
+      }
+      // let type = $(thePiece).data().piece;
+      let color = $(thePiece).data().team[0];
+      currentRow.push([color, type]);
+    }
+    if(currentRow.length === 8){
+      board.push(currentRow);
+      currentRow = [];
+    }
+  }
+  return board;
+}
+function setGameState(state){
+  if (validateGameState(state)){
+    clearBoard();
+    console.log('das some good data');
+    let numberOfSquares = $('.square').length
+    let squareIndex = 0;
+    for (let row = 0; row< 8; row++){
+      for (let col =0; col<8; col++){
+        if(state[row][col] !== null){
+          let parsed = parseShorthand(state[row][col][0], state[row][col][1]);
+          let color = parsed.split('-')[0];
+          let type = parsed.split('-')[1];
+          addPiece(type, color, $('.square')[squareIndex].id);
+          squareIndex++;
+        }else{
+          squareIndex++;
+        }
+      }
+    }
+  }
+}
+function validateGameState(state){
+  if (state.length != 8){
+    return false;
+  }
+  for (let i = 0; i<state.length;i++){
+    if (state[i].length != 8){
+      return false;
+    }
+  }
+  return true;
+}
+function clearBoard(){
+  $('.square').empty();
+}
+function parseShorthand(c, p){
+  let color;
+  let piece;
+  switch (c){
+    case 'b':
+      color = 'black';
+      break;
+    case 'w':
+      color = 'white';
+      break;
+  }
+  switch (p){
+    case 'p':
+      piece = 'pawn';
+      break;
+    case 'r':
+      piece = 'rook';
+      break;
+    case 'n':
+      piece = 'knight';
+      break;
+    case 'b':
+      piece = 'bishop';
+      break;
+    case 'q':
+      piece = 'queen';
+      break;
+    case 'k':
+      piece = 'king';
+      break;
+  }
+  return `${color}-${piece}`;
 }

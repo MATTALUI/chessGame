@@ -1,2 +1,4 @@
-*CHESS*
-![Example picture of chessboard](http://url/to/img.png)
+#CHESS#
+
+
+![Example picture of chessboard](https://github.com/MATTALUI/chessGame/blob/master/scrsht.png)

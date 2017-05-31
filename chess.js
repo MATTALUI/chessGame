@@ -70,6 +70,10 @@ function setPieces(){
 }
 function selectPiece(){
   let square = $(event.target).parent()[0];
+  if ($('.active').length > 0 && ($('.active').children().data().team != $(event.target).data().team)){
+    movePiece($('.active')[0].id ,square.id);
+    return;
+  }
   if($(square).hasClass('active')){
     $('.active').removeClass('active');
     return;
@@ -80,9 +84,23 @@ function selectPiece(){
 function selectNewLocation(){
   let squareClicked = event.path.reverse()[5];
   // let selectedPiece = $('.active').attr('id');
-  if ($(squareClicked).children().length === 0 && $('.active').length > 0){
+  if ($(squareClicked).children().length === 0  && $('.active').length > 0){
     movePiece($('.active').attr('id'), squareClicked.id)
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 function getGameState(){
   let board = [];

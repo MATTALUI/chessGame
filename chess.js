@@ -6,7 +6,6 @@ $(document).ready(()=>{
   $('#boardZone').on('click','.square', selectNewLocation);
 });
 $(window).resize(()=>{
-    // console.log($('#a1').css('width'));
     $('.square').css('height', $('#a1').css('width'));
 
 });
@@ -35,7 +34,6 @@ function generateBoard(){
 }
 function addPiece(pieceType, color, location){
   $(`#${location}`).html(`<img src="pieces/${color}${pieceType}.png" class="piece" data-team="${color}" data-piece="${pieceType}">`);
-
 }
 function removePiece(location){
   $(`#${location}`).html('')
@@ -83,24 +81,9 @@ function selectPiece(){
 }
 function selectNewLocation(){
   let squareClicked = event.path.reverse()[5];
-  // let selectedPiece = $('.active').attr('id');
   if ($(squareClicked).children().length === 0  && $('.active').length > 0){
     movePiece($('.active').attr('id'), squareClicked.id)
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 function getGameState(){
   let board = [];
@@ -109,7 +92,7 @@ function getGameState(){
   for (let i =0; i<numberOfSquares;i++){
     let currentSquare = $('.square')[i];
     if($(currentSquare).children().length === 0){
-      currentRow.push(null);
+      currentRow.push('');
     }else{
       let type;
       let thePiece = $(currentSquare).children();
@@ -118,9 +101,9 @@ function getGameState(){
       }else{
         type = $(thePiece).data().piece[0];
       }
-      // let type = $(thePiece).data().piece;
       let color = $(thePiece).data().team[0];
-      currentRow.push([color, type]);
+      currentRow.push(`${color}${type}`);
+      // [color, type]
     }
     if(currentRow.length === 8){
       board.push(currentRow);
@@ -137,7 +120,7 @@ function setGameState(state){
     let squareIndex = 0;
     for (let row = 0; row< 8; row++){
       for (let col =0; col<8; col++){
-        if(state[row][col] !== null){
+        if(state[row][col] !== ''){
           let parsed = parseShorthand(state[row][col][0], state[row][col][1]);
           let color = parsed.split('-')[0];
           let type = parsed.split('-')[1];
